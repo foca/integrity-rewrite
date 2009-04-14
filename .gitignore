@@ -1,4 +1,5 @@
 *.gem
+integrity.db
 doc/*
 log/*
 tmp/*
