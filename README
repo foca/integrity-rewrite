@@ -1,0 +1,44 @@
+= Integrity
+
+Integrity[http://integrityapp.com] is your friendly automated Continuous 
+Integration server.
+
+* See our website[http://integrityapp.com] for documentation and a live 
+  demo[http://builder.integrityapp.com]
+* Report bugs and submit features request on our 
+  Lighthouse[http://integrity.lighthouseapp.com] account
+* Join us on #integrity, our IRC channel, on irc.freenode.net for ideas, 
+  help, patches or something
+* Get the code on GitHub[http://github.com/integrity/integrity]
+
+== Try it!
+
+    $ git clone git://github.com/integrity/integrity.git
+    $ rake launch
+    # Navigate to <http://0.0.0.0:4567>
+
+== Run the test suite
+
+1. Ensure you have <tt>gems.github.com</tt> in your gem sources:
+   <tt>gem sources -a http://gems.github.com</tt>
+2. Install the runtime and development dependencies:
+   <tt>gem build integrity.gemspec && gem install *.gem --development</tt>
+3. Run the test suite: <tt>rake test</tt>
+
+== Credits
+
+Integrity is maintained by Nicolas Sanguinetti (foca[http://github.com/foca]) and
+Simon Rozet (sr[http://github.com/sr]), but it wouldn't be possible it if wasn't
+for the feedback, ideas, and patches from the following people (and many other):
+
+* James Adam (lazyatom[http://github.com/lazyatom])
+* Elliott Cable (elliotcabble[http://github.com/elliotcabble])
+* Corey Donohoe (atmos[http://github.com/atmos])
+* Kyle Hargraves (pd[http://github.com/pd])
+* Pier-Hugues Pellerin (ph[http://github.com/ph])
+* Scott Taylor (smtlaissezfaire[http://github.com/smtlaissezfaire])
+
+== License
+
+The code is released under an MIT license, see the attached LICENSE file for 
+details.

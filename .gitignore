@@ -1,0 +1,7 @@
+*.gem
+doc/*
+log/*
+tmp/*
+dist/*
+config.ru
+vendor/bob/*
