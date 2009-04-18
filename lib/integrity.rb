@@ -1,12 +1,14 @@
-$LOAD_PATH.unshift *Dir[File.dirname(__FILE__) + "/../vendor/**/lib"].to_a
-
-require "ostruct"
-require "sequel"
+$LOAD_PATH.unshift File.dirname(__FILE__), *Dir[File.dirname(__FILE__) + "/../vendor/**/lib"].to_a
 
 require "core_ext/object"
+require "ostruct"
 
-require "bob"
 require "sinatra/base"
+require "sequel"
+require "sequel_model_hacks"
+require "bob"
+
+require "integrity/project"
 
 module Integrity
   # Configure integrity via this method. Set configuration options like this:

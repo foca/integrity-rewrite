@@ -56,3 +56,16 @@ namespace :vendor do
     FileUtils.rm_r("vendor/bob") if File.directory?("vendor/bob")
   end
 end
+
+namespace :db do
+  task :migrate => :environment do
+    require "sequel/extensions/migration"
+    Sequel::Migrator.apply(Integrity.database, File.dirname(__FILE__) + "/lib/integrity/migrations")
+  end
+end
+
+task :environment do
+  def run(x); end
+  def use(x); end
+  load "config.ru"
+end
