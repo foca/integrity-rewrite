@@ -1,0 +1,22 @@
+Some thoughts/goals regarding integrity:
+========================================
+
+* It should "just run". As any good sinatra citizen `ruby app.rb` should run.
+
+* Installing on a server should not require anything else than:
+  - A command to install
+  - (Optionally) Edit one config file
+  - Run the app
+  - Edit your front balancer server (nginx, apache) to point to the app
+
+* Linked to the above, integrity should depend on as few libraries as possible.
+  This eases up support as it's harder to run into dependency problems.
+
+* Extending the application with new features *by users* should be trivial. 
+  Extension points should be present at any point of the workflow.
+
+* Everything that could change regularly must be done via the web UI. Touching
+  the config file should be left for one time configs (adding plugins, etc).
+
+* Nothing should be pushed to master without at least one other developer 
+  reviewing the changes before. master should always be stable.
