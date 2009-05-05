@@ -23,19 +23,21 @@ module Integrity
   #
   # The configuration options used throughout the app are:
   #
-  # * <tt>log_file</tt>
-  #   File to store integrity's log. Defaults to <tt>STDOUT</tt>.
-  # * <tt>logger</tt>
-  #   Logger object used to log throughout the application. It defaults to a Logger
-  #   instance that logs to <tt>config.log_file</tt> and cycles the log every 1 MiB, 
-  #   keeping 7 old log files.
-  # * <tt>database_uri</tt>
-  #   URI to your database, as required by the sequel[http://sequel.rubyforge.org] API.
-  # * <tt>database</tt>
-  #   Database connection used in Integrity. It defaults to whatever driver is appropriate
-  #   according to <tt>Integrity.config.database_uri</tt>
-  # * <tt>base_uri</tt>
-  #   URI where your integrity install lives (for example, <tt>http://builder.integrityapp.com</tt>)
+  # <tt>log_file</tt>::     File to store integrity's log. Defaults to 
+  #                         <tt>STDOUT</tt>.
+  # <tt>logger</tt>::       Logger object used to log throughout the application. 
+  #                         It defaults to a Logger instance that logs to 
+  #                         <tt>config.log_file</tt> and cycles the log every 1 MiB, 
+  #                         keeping 7 old log files.
+  # <tt>build_path</tt>::   Filesystem path to indicate where to check out the code 
+  #                         repositories in order to run the build scripts.
+  # <tt>database_uri</tt>:: URI to your database, as required by the 
+  #                         sequel[http://sequel.rubyforge.org] API.
+  # <tt>database</tt>::     Database connection used in Integrity. It defaults to 
+  #                         whatever driver is appropriate according to 
+  #                         <tt>Integrity.config.database_uri</tt>
+  # <tt>base_uri</tt>::     URI where your integrity install lives (for example, 
+  #                         <tt>http://builder.integrityapp.com</tt>)
   #
   # You can access the configuration with <tt>Integrity.config</tt>
   def self.configure(&block) # :yields: config

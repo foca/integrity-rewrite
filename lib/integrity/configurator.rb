@@ -13,8 +13,17 @@ module Integrity
       yield self if block_given?
     end
 
-    def build_path=(path) #:nodoc: maybe this method should be documented to state it's side effects? dunno
-      super(Bob.directory = path)
+    # The build path is where each build will be stored. Since this is
+    # handled by Bob the Builder, we just forward this setting there.
+    def build_path # :nodoc:
+      Bob.directory
+    end
+
+    # The build path is where each build will be stored. Since this is
+    # handled by Bob the Builder, we just forward this setting there.
+    def build_path=(path) # :nodoc:
+      Bob.directory = path
+      super(path)
     end
   end
 end
