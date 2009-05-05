@@ -65,7 +65,12 @@ namespace :db do
 end
 
 task :environment do
-  def run(x); end
-  def use(x); end
-  load "config.ru"
+  ENV["CONFIG"] ||= File.dirname(__FILE__) + "/config.rb"
+  ENV["CONFIG"] = File.expand_path(ENV["CONFIG"])
+
+  if File.file?(ENV["CONFIG"])
+    require ENV["CONFIG"]
+  else
+    puts "No config file found at #{ENV["CONFIG"]}"
+  end
 end
