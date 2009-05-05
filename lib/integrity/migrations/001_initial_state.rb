@@ -1,6 +1,6 @@
 module Integrity
-  module Migrations
-    class InitialState < Sequel::Migration
+  module Migrations # :nodoc:
+    class InitialState < Sequel::Migration # :nodoc:
       def up
         create_table :projects do
           primary_key :id
