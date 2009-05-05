@@ -7,6 +7,7 @@ require "sequel"
 require "sequel_model_hacks"
 require "bob"
 
+require "integrity/logger"
 require "integrity/configurator"
 require "integrity/project"
 
@@ -43,9 +44,9 @@ module Integrity
       defaults.base_uri     = "http://localhost:8910"
       defaults.database_uri = "sqlite://integrity.db"
       defaults.build_path   = Bob.directory
-
-      block.call(defaults) if block
     end
+
+    @config.tap {|c| block.call(c) if block }
   end
 
   class << self
@@ -55,26 +56,12 @@ module Integrity
   # Integrity's logger, defaults to logging at whatever stream is specified in 
   # <tt>config.log_file</tt>. May be modified by setting <tt>config.logger</tt>
   def self.logger
-    config.logger ||= default_logger
+    config.logger ||= Logger.new(config.log_file)
   end
 
   # Database connection, using whatever adapter you specified in 
   # <tt>config.database_uri</tt>.
   def self.database
     config.database ||= Sequel.connect(config.database_uri, :loggers => [self.logger])
-  end
-
-  def self.default_logger
-    Logger.new(config.log_file, 7, 1024**2).tap do |logger|
-      logger.level = Logger::INFO
-      logger.formatter = LogFormatter.new
-    end
-  end
-  private_class_method :default_logger
-
-  class LogFormatter < Logger::Formatter #:nodoc:
-    def call(severity, time, progname, msg)
-      time.strftime("[%H:%M:%S] ") + msg2str(msg) + "\n"
-    end
   end
 end
