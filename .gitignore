@@ -5,4 +5,4 @@ log/*
 tmp/*
 dist/*
 config.ru
-vendor/bob/*
+vendor/bob-the-builder/*

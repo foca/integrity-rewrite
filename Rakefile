@@ -48,12 +48,12 @@ namespace :vendor do
   desc "Vendor Bob the Builder"
   task :bob => "bob:clobber" do
     Dir.chdir("vendor") do
-      `gem unpack bob && mv bob* bob`
+      `gem unpack bob-the-builder && mv bob-the-builder* bob-the-builder`
     end
   end
 
   task "bob:clobber" do
-    FileUtils.rm_r("vendor/bob") if File.directory?("vendor/bob")
+    FileUtils.rm_r("vendor/bob-the-builder") if File.directory?("vendor/bob-the-builder")
   end
 end
 
