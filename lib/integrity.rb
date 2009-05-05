@@ -4,12 +4,10 @@ require "core_ext/object"
 require "ostruct"
 require "sinatra/base"
 require "sequel"
-require "sequel_model_hacks"
 require "bob"
 
 require "integrity/logger"
 require "integrity/configurator"
-require "integrity/project"
 
 # General utility methods and configuration options for integrity.
 module Integrity
@@ -66,4 +64,16 @@ module Integrity
   def self.database
     config.database ||= Sequel.connect(config.database_uri, :loggers => [self.logger])
   end
+
+  def self.after_connecting_to_database # :nodoc:
+    database # force calling this to connect to the db
+             # This is naive, as it will only work with the default database.
+    yield
+  end
+end
+
+Integrity.after_connecting_to_database do
+  require "integrity/project"
+  require "integrity/commit"
+  require "integrity/build"
 end
