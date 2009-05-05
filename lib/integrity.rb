@@ -2,14 +2,15 @@ $LOAD_PATH.unshift File.dirname(__FILE__), *Dir[File.dirname(__FILE__) + "/../ve
 
 require "core_ext/object"
 require "ostruct"
-
 require "sinatra/base"
 require "sequel"
 require "sequel_model_hacks"
 require "bob"
 
+require "integrity/configurator"
 require "integrity/project"
 
+# General utility methods and configuration options for integrity.
 module Integrity
   # Configure integrity via this method. Set configuration options like this:
   #
@@ -37,8 +38,14 @@ module Integrity
   #
   # You can access the configuration with <tt>Integrity.config</tt>
   def self.configure(&block) # :yields: config
-    @config ||= default_configuration
-    @config.tap { block.call(@config) if block }
+    @config ||= Configurator.new do |defaults|
+      defaults.log_file     = STDOUT
+      defaults.base_uri     = "http://localhost:8910"
+      defaults.database_uri = "sqlite://integrity.db"
+      defaults.build_path   = Bob.directory
+
+      block.call(defaults) if block
+    end
   end
 
   class << self
@@ -56,13 +63,6 @@ module Integrity
   def self.database
     config.database ||= Sequel.connect(config.database_uri, :loggers => [self.logger])
   end
-
-  def self.default_configuration
-    OpenStruct.new(:log_file     => STDOUT,
-                   :base_uri     => "http://localhost:8910",
-                   :database_uri => "sqlite://integrity.db")
-  end
-  private_class_method :default_configuration
 
   def self.default_logger
     Logger.new(config.log_file, 7, 1024**2).tap do |logger|
