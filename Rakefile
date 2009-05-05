@@ -38,23 +38,28 @@ end
 task :test => :vendor
 
 desc "Bundle internal dependencies (for ease of use)"
-task :vendor => %w(vendor:prepare vendor:bob)
+task :vendor => %w(vendor:prepare vendor:bob vendor:beacon)
 
 namespace :vendor do
   task :prepare do
     `mkdir -p vendor`
   end
 
-  desc "Vendor Bob the Builder"
-  task :bob => "bob:clobber" do
-    Dir.chdir("vendor") do
-      `gem unpack bob-the-builder && mv bob-the-builder* bob-the-builder`
+  def vendor_lib(lib_name, gem_name=lib_name)
+    desc "Vendor #{gem_name}"
+    task lib_name => "#{lib_name}:clobber" do
+      Dir.chdir("vendor") do
+        `gem unpack #{gem_name} && mv #{gem_name}* #{gem_name}`
+      end
+    end
+
+    task "#{lib_name}:clobber" do
+      FileUtils.rm_r("vendor/#{gem_name}") if File.directory?("vendor/#{gem_name}")
     end
   end
 
-  task "bob:clobber" do
-    FileUtils.rm_r("vendor/bob-the-builder") if File.directory?("vendor/bob-the-builder")
-  end
+  vendor_lib :bob, "bob-the-builder"
+  vendor_lib :beacon
 end
 
 namespace :db do
