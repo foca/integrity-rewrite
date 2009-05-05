@@ -63,12 +63,14 @@ namespace :vendor do
 end
 
 namespace :db do
+  desc "Migrate the database to the latest version"
   task :migrate => :environment do
     require "sequel/extensions/migration"
     Sequel::Migrator.apply(Integrity.database, File.dirname(__FILE__) + "/lib/integrity/migrations")
   end
 end
 
+desc "Load the config file (probably only to be used as a dependency on other tasks...)"
 task :environment do
   ENV["CONFIG"] ||= File.dirname(__FILE__) + "/config.rb"
   ENV["CONFIG"] = File.expand_path(ENV["CONFIG"])
