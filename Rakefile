@@ -30,12 +30,23 @@ desc "Default: run tests"
 task :default => :test
 
 desc "Run web application tests"
-Rake::TestTask.new(:test) do |t|
-  t.test_files = FileList["test/**/*_test.rb"]
-end
+task :test => %w(test:unit test:web)
 
-# ensure we have all dependencies bundled when we run tests
-task :test => :vendor
+namespace :test do
+  desc "Run web application tests"
+  Rake::TestTask.new(:web) do |t|
+    t.test_files = FileList["test/web/**/*_test.rb"]
+  end
+
+  desc "Run unit tests for models"
+  Rake::TestTask.new(:unit) do |t|
+    t.test_files = FileList["test/unit/**/*_test.rb"]
+  end
+
+  # vendor all dependencies before running tests
+  task :unit => :vendor 
+  task :web  => :vendor
+end
 
 desc "Bundle internal dependencies (for ease of use)"
 task :vendor => %w(vendor:prepare vendor:bob vendor:beacon)
