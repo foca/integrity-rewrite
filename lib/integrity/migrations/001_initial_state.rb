@@ -6,9 +6,9 @@ module Integrity
           primary_key :id
           varchar     :name
           varchar     :permalink, :unique => true
-          varchar     :repo_kind
-          varchar     :repo_uri
-          varchar     :repo_branch
+          varchar     :kind
+          varchar     :uri
+          varchar     :branch
           text        :build_script
           timestamp   :created_at
           timestamp   :updated_at
