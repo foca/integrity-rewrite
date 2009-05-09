@@ -10,6 +10,7 @@ module Integrity
           varchar     :uri
           varchar     :branch
           text        :build_script
+          boolean     :public
           timestamp   :created_at
           timestamp   :updated_at
         end
