@@ -7,8 +7,14 @@ module Integrity
 
     helpers Sinatra::ContentFor
 
-    get "/integrity.css" do
-      "CSS Stylesheet"
+    get "/user_styles.css" do
+      content_type "text/css"
+      yield_content "global.stylesheets"
+    end
+
+    get "/user_scripts.js" do
+      content_type "text/javascript"
+      yield_content "global.javascripts"
     end
 
     get "/?" do
