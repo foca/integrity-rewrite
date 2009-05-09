@@ -1,6 +1,6 @@
 module Integrity
   # Web UI to integrity.
-  class App < Sinatra::Base
+  class App < Sinatra::Default
     set :root,     File.expand_path(File.dirname(__FILE__) + "/../..")
     set :app_file, __FILE__
     enable :sessions

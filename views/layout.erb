@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="en">
+    <title><%=h @title.join("–") %> | integrity</title>
+    <link rel="stylesheet" href="/reset.css" type="text/css">
+    <link rel="stylesheet" href="/buttons.css" type="text/css">
+    <link rel="stylesheet" href="/integrity.css" type="text/css">
+    <link rel="stylesheet" href="/user_styles.css" type="text/css">
+  </head>
+  <body>
+    <div id="header">
+      <h1>Integrity</h1>
+      <address class="watermark">
+        checked with <a href="http://integrityapp.com" title="The fun continuous integration server">integrity</a>
+      </address>
+    </div>
+    <div id="content">
+      <%= yield %>
+    </div>
+    <div id="footer">
+    </div>
+    <script type="text/javascript" src="/user_scripts.js"></script>
+  </body>
+</html>
