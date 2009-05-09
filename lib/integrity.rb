@@ -3,6 +3,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__), *Dir[File.dirname(__FILE__) + "/../ve
 require "core_ext/object"
 require "ostruct"
 require "sinatra/base"
+require "sinatra/content_for"
 require "sequel"
 require "bob"
 

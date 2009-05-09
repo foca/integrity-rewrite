@@ -5,6 +5,8 @@ module Integrity
     set :app_file, __FILE__
     enable :sessions
 
+    helpers Sinatra::ContentFor
+
     get "/integrity.css" do
       "CSS Stylesheet"
     end

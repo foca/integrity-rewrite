@@ -71,6 +71,7 @@ namespace :vendor do
 
   vendor_lib :bob, "bob-the-builder"
   vendor_lib :beacon
+  vendor_lib "sinatra-content-for"
 end
 
 namespace :db do
