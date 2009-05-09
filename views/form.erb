@@ -1,0 +1,32 @@
+<dl class="form required">
+  <dt><label for="project_name">Name</label></dt>
+  <dd><input type="text" id="project_name" name="project_data[name]" class="text" value="<%=h @project.name %>"></dd>
+</dl>
+
+<dl class="form required select">
+  <dt><label for="project_kind">Repository Type</label></dt>
+  <dd><select id="project_kind" name="project_data[kind]">
+    <option value="git"<%= " selected" if @project.kind == "git" %>>git</option>
+    <option value="svn"<%= " selected" if @project.kind == "svn" %>>svn</option>
+  </select></dd>
+</dl>
+
+<dl class="form required">
+  <dt><label for="project_uri">Repository URI</label></dt>
+  <dd><input type="text" id="project_uri" name="project_data[uri]" class="text" value="<%=h @project.uri %>"></dd>
+</dl>
+
+<dl class="form required">
+  <dt><label for="project_build_script">Build Script</label></dt>
+  <dd><textarea id="project_build_script" name="project_data[build_script]" cols="40" rows="2"><%=h @project.build_script %></textarea></dd>
+</dl>
+
+<dl class="form">
+  <dt><label for="project_branch">Branch</label></dt>
+  <dd><input type="text" id="project_branch" name="project_data[branch]" class="text" value="<%=h @project.branch %>"></dd>
+</dl>
+
+<dl class="form">
+  <dt><label for="project_public">Public Project</label></dt>
+  <dd><input type="checkbox" id="project_public" name="projet_data[public]" class="checkbox"<%= " checked" if @project.public? %>></dd>
+</dl>

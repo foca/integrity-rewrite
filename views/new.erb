@@ -1,0 +1,8 @@
+<form action="/" method="post">
+  <%= erb(:form, :layout => false) %>
+
+  <div class="form-actions">
+    <button type="submit" class="positive submit-button">Create Project</button>
+    <a href="<%= url("/") %>" class="cancel-link">Cancel</a>
+  </div>
+</form>

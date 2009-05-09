@@ -23,7 +23,8 @@ module Integrity
     end
 
     get "/new" do
-      "New project"
+      @project = Project.new
+      render_page :new, "new project"
     end
 
     post "/?" do
