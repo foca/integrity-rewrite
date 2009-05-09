@@ -87,6 +87,8 @@ task :environment do
   ENV["CONFIG"] ||= File.dirname(__FILE__) + "/config.rb"
   ENV["CONFIG"] = File.expand_path(ENV["CONFIG"])
 
+  $from_rake = true
+
   if File.file?(ENV["CONFIG"])
     require ENV["CONFIG"]
   else

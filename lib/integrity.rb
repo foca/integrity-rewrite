@@ -69,7 +69,7 @@ module Integrity
   def self.after_connecting_to_database # :nodoc:
     database # force calling this to connect to the db
              # This is naive, as it will only work with the default database.
-    yield
+    yield unless $from_rake
   end
 end
 

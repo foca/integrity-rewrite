@@ -1,5 +1,7 @@
 module Integrity
   class Project < Sequel::Model
+    plugin :timestamped
+
     def status
       last_commit && last_commit.status
     end
@@ -58,5 +60,19 @@ module Integrity
       @values[:public].nil? ? true : @values[:public]
     end
     alias_method :public?, :public
+
+  private
+
+    def before_create
+      super
+
+      # Normalize the permalink so it doesn't have any weird characters
+      # and looks pretty
+      self.permalink = (name || "").downcase.
+        gsub(/'s/, "s").
+        gsub(/&/, "and").
+        gsub(/[^a-z0-9]+/, "-").
+        gsub(/-*$/, "")
+    end
   end
 end

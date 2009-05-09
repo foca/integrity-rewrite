@@ -28,7 +28,13 @@ module Integrity
     end
 
     post "/?" do
-      "Create new project"
+      @project = Project.new(params[:project_data])
+
+      if @project.save
+        redirect project_url(@project)
+      else
+        render_page :new, "new project"
+      end
     end
 
     get "/:project/?" do |project|
@@ -89,7 +95,7 @@ module Integrity
       end
 
       def url(*path)
-        root_url.dup.tap {|url| url.path = root_url.path + path.join("/") }
+        root_url.dup.tap {|url| url.path = root_url.path + path.join("/") }.to_s
       end
 
       def project_url(project)
