@@ -18,7 +18,8 @@ module Integrity
     end
 
     get "/?" do
-      "Project list"
+      @projects = Project.all
+      render_page :list, "projects"
     end
 
     get "/new" do
@@ -67,6 +68,38 @@ module Integrity
 
     post "/:project/commits/:commit/builds/?" do |project, commit|
       "Rebuild the commit #{commit} of #{project}"
+    end
+
+    helpers do
+      def render_page(view, title)
+        @title = Array(title)
+        erb view
+      end
+
+      def cycle(*values)
+        @cycles ||= {}
+        @cycles[values] ||= -1 # first value returned is 0
+        next_value = @cycles[values] = (@cycles[values] + 1) % values.size
+        values[next_value]
+      end
+
+      def root_url
+        @root_url ||= Addressable::URI.parse(Integrity.config.base_uri)
+      end
+
+      def url(*path)
+        root_url.dup.tap {|url| url.path = root_url.path + path.join("/") }
+      end
+
+      def project_url(project)
+        url(project.permalink)
+      end
+
+      def commit_url(commit)
+        url(commit.project.permalink, :commits, commit.identifier)
+      end
+
+      alias_method :h, :escape_html
     end
   end
 end
