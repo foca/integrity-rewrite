@@ -100,6 +100,15 @@ module Integrity
         url(commit.project.permalink, :commits, commit.identifier)
       end
 
+      def breadcrumbs
+        crumbs = env["PATH_INFO"].split("/").map {|path| { :path => path, :name => path } }
+        crumbs[0] = { :path => "/", :name => "projects" }
+        crumbs = crumbs[0..-2].inject([]) do |crumbs_so_far, current|
+          crumbs_so_far << %(<a href="#{current[:path]}">#{current[:name]}</a>)
+        end << crumbs.last[:name]
+        crumbs.join(" / ")
+      end
+
       alias_method :h, :escape_html
     end
   end
