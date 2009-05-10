@@ -7,17 +7,8 @@
   <ul id="projects">
   <% for project in @projects %>
     <li class="<%= cycle("even", "odd") %> <%= project.status.to_s %>" id="project_<%= project.id %>">
-      <a href="<%= project_url(project) %>"><%=h project.name %></a>
-      <div class="meta">
-        <% if project.building? %>
-          Building.
-        <% elsif project.last_commit.nil? %>
-          Never built yet.
-        <% else %>
-          <%= project.human_readable_status %>
-        <% end %>
-      </div>
-
+      <a href="<%= project_url(project) %>"><%= project_name project %></a>
+      <div class="meta"><%= project_meta_status project %></div>
       <% yield_content "projects.project", project %>
     </li>
   <% end %>

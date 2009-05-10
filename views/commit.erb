@@ -1,0 +1,13 @@
+<h1><%=h @commit.human_readable_status %></h1>
+
+<blockquote>
+  <p><%= commit_message @commit %></p>
+  <p class="meta">
+    <span class="who">by: <%= commit_author @commit %></span> |
+    <span class="when" title="<%= @commit.committed_at %>"><%= commit_date @commit %></span> |
+    <span class="what">commit: <%= commit_identifier @commit %></span>
+  </p>
+</blockquote>
+
+<h2>Build Output:</h2>
+<pre class="output"><%= commit_output @commit %></pre>

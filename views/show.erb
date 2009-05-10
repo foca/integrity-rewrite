@@ -1,0 +1,20 @@
+<% if !@commit %>
+  <form method="post" action="<%= project_url(@project, :builds) %>" class="blank_slate">
+    <p>No builds for this project, buddy</p>
+    <h1>You can request a <button type="submit">manual build</button>.</h1>
+  </form>
+<% else %>
+  <div id="last_build" class="<%= @commit.status %>">
+    <%= erb(:commit, :layout => false) %>
+  </div>
+
+  <% content_for "global.management" do %>
+    <form method="post" action="<%= project_url(@project, :builds) %>">
+      <button type="submit" title="Fetch the last commit and build it">Build Last Commit</button>
+    </form>
+  <% end %>
+<% end %>
+
+<% content_for "global.management" do %>
+  <a href="<%= project_url(@project, :edit) %>">Edit Project</a>
+<% end %>

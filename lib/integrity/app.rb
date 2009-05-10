@@ -38,7 +38,9 @@ module Integrity
     end
 
     get "/:project/?" do |project|
-      "Show #{project}"
+      @project = Project.first(:permalink => project)
+      @commit = @project.last_commit
+      render_page :show, project
     end
 
     get "/:project.atom" do |project|
@@ -98,12 +100,12 @@ module Integrity
         root_url.dup.tap {|url| url.path = root_url.path + path.join("/") }.to_s
       end
 
-      def project_url(project)
-        url(project.permalink)
+      def project_url(project, *path)
+        url(project.permalink, *path)
       end
 
-      def commit_url(commit)
-        url(commit.project.permalink, :commits, commit.identifier)
+      def commit_url(commit, *path)
+        url(commit.project.permalink, :commits, commit.identifier, *path)
       end
 
       def breadcrumbs
@@ -117,6 +119,73 @@ module Integrity
 
       def any_management_links?
         !content_blocks[:"global.management"].empty?
+      end
+
+      def bash_color_codes(string)
+        string.gsub("\e[0m", '</span>').
+          gsub("\e[31m", '<span class="color31">').
+          gsub("\e[32m", '<span class="color32">').
+          gsub("\e[33m", '<span class="color33">').
+          gsub("\e[34m", '<span class="color34">').
+          gsub("\e[35m", '<span class="color35">').
+          gsub("\e[36m", '<span class="color36">').
+          gsub("\e[37m", '<span class="color37">')
+      end
+
+      def pretty_date(date_time)
+        days_away = (Date.today - Date.new(date_time.year, date_time.month, date_time.day)).to_i
+        if days_away == 0
+          "today"
+        elsif days_away == 1
+          "yesterday"
+        else
+          strftime_with_ordinal(date_time, "on %b %d%o")
+        end
+      end
+
+      def strftime_with_ordinal(date_time, format_string)
+        ordinal = case date_time.day
+          when 1, 21, 31 then "st"
+          when 2, 22     then "nd"
+          when 3, 23     then "rd"
+          else                "th"
+        end
+
+        date_time.strftime(format_string.gsub("%o", ordinal))
+      end
+
+      def project_name(project)
+        h project.name
+      end
+
+      def project_meta_status(project)
+        if project.building?
+          "Building."
+        elsif project.last_commit.nil?
+          "Never built yet."
+        else
+          project.human_readable_status
+        end
+      end
+
+      def commit_author(commit)
+        h commit.author.name
+      end
+
+      def commit_date(commit)
+        h pretty_date(commit.committed_at)
+      end
+
+      def commit_message(commit)
+        h commit.message
+      end
+
+      def commit_identifier(commit)
+        h commit.identifier
+      end
+
+      def commit_output(commit)
+        bash_color_codes h(commit.output)
       end
 
       alias_method :h, :escape_html
