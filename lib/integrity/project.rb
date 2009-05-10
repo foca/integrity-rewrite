@@ -1,17 +1,27 @@
 module Integrity
   class Project < Sequel::Model
-    plugin :timestamped
+    one_to_many :commits, :class => "Integrity::Commit"
 
+    plugin :timestamped
+    plugin :cascading, :destroy => :commits
+
+    # Delegate the status of the project to the last_commit. See 
+    # Integrity::Commit#status for more information.
     def status
       last_commit && last_commit.status
     end
 
+    # Delegate the human readable status of the project to the 
+    # last_commit. See # Integrity::Commit#human_readable_status for 
+    # more information.
     def human_readable_status
       last_commit && last_commit.human_readable_status
     end
 
+    # Get the most recent commit to this project, or nil if no commits
+    # are found.
     def last_commit
-      nil
+      commits_dataset.reverse_order(:created_at).first
     end
 
     # Is this project currently being built? Returns <tt>true</tt> or 
