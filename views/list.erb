@@ -23,7 +23,7 @@
   <% end %>
   </ul>
 
-  <p id="new">
-    <a href="<%= url("/new") %>">Add a new project</a>
-  </p>
+  <% content_for "global.management" do %>
+    <a href="<%= url("/new") %>">New Project</a>
+  <% end %>
 <% end %>

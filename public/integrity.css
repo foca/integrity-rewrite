@@ -399,6 +399,29 @@ dl.required input.text, dl.required textarea {
   margin-left: 2em; 
 }
 
+#content #management {
+  margin: -1.25em -2.5em 1.25em;
+  padding: .25em 2.5em;
+  font-size: .8em;
+  background: #d0d0d0;
+}
+#content #management:after {
+  clear:both;
+  content:".";
+  visibility:hidden;
+}
+#content #management a {
+  display: block;
+  margin: -0.25em 0;
+  padding: .25em;
+  float: right;
+  color: #666;
+}
+#content #management a:hover {
+  background: #666;
+  color: white;
+}
+
 a.success {
   color: #bbf8aa; 
 }

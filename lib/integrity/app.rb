@@ -115,6 +115,10 @@ module Integrity
         crumbs.join(" / ")
       end
 
+      def any_management_links?
+        !content_blocks[:"global.management"].empty?
+      end
+
       alias_method :h, :escape_html
     end
   end

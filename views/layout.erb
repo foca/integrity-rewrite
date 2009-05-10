@@ -18,6 +18,11 @@
       </address>
     </div>
     <div id="content">
+      <% if any_management_links? %>
+        <div id="management">
+          <% yield_content "global.management" %>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
     <div id="footer">
