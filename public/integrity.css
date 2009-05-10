@@ -400,24 +400,30 @@ dl.required input.text, dl.required textarea {
 }
 
 #content #management {
-  margin: -1.25em -2.5em 1.25em;
-  padding: .25em 2.5em;
+  margin: 0 0 1.25em;
+  border: 1px solid #ccc;
+  padding: .25em 0;
   font-size: .8em;
-  background: #d0d0d0;
+  background: #f8f8f8;
 }
 #content #management:after {
   clear:both;
   content:".";
   visibility:hidden;
 }
-#content #management a {
+#content #management a, #content #management button {
   display: block;
   margin: -0.25em 0;
-  padding: .25em;
+  border: 0;
+  border-left: 1px solid #ccc;
+  padding: .25em .5em;
   float: right;
   color: #666;
+  background: transparent;
+  font-weight: normal;
+  font-family: 'Lucida Grande', Tahoma, Arial, Verdana, sans-serif;
 }
-#content #management a:hover {
+#content #management a:hover, #content #management button:hover {
   background: #666;
   color: white;
 }
