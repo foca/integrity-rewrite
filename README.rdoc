@@ -1,0 +1,5 @@
+= Integrity
+
+**IMPORTANT** This is NOT meant to be used. It's a rewrite from scratch.
+
+See GOALS

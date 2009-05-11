@@ -23,6 +23,8 @@ Some thoughts/goals regarding integrity:
   Extension points should be present at any point of the workflow.
 
 * Model attributes should never be directly accessed from the views, helper
-  methods to access them shold always be used. This allows extension authors
+  methods to access them should always be used. This allows extension authors
   to override a helper (potentially calling super if they need) instead of
   monkeypatching integrity's classes.
+ 
+* Fully Documented. No methods should be added without API documentation.
