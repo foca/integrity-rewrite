@@ -8,13 +8,13 @@
   <% for project in @projects %>
     <li class="<%= cycle("even", "odd") %> <%= project.status.to_s %>" id="project_<%= project.id %>">
       <a href="<%= project_url(project) %>"><%= project_name project %></a>
-      <div class="meta"><%= project_meta_status project %></div>
+      <div class="meta"><%= project_status project %></div>
       <% yield_content "projects.project", project %>
     </li>
   <% end %>
   </ul>
 
   <% content_for "global.management" do %>
-    <a href="<%= url("/new") %>">New Project</a>
+    <a href="<%= url("new") %>">New Project</a>
   <% end %>
 <% end %>

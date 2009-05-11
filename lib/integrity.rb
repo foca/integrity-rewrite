@@ -9,6 +9,7 @@ require "bob"
 
 require "integrity/logger"
 require "integrity/configurator"
+require "integrity/helpers"
 
 # General utility methods and configuration options for integrity.
 module Integrity
