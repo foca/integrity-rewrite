@@ -94,4 +94,6 @@ task :environment do
   else
     puts "No config file found at #{ENV["CONFIG"]}"
   end
+
+  Integrity.connect_to_database
 end

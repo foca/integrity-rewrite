@@ -61,16 +61,25 @@ module Integrity
     config.logger ||= Logger.new(config.log_file)
   end
 
-  # Database connection, using whatever adapter you specified in 
-  # <tt>config.database_uri</tt>.
+  # Convenience method to grab the database connection (available as 
+  # <tt>config.database</tt>)
   def self.database
-    config.database ||= Sequel.connect(config.database_uri, :loggers => [self.logger])
+    config.database
+  end
+
+  # Establish a connection to the database using whatever adapter you specified in 
+  # <tt>config.database_uri</tt>.
+  def self.connect_to_database
+    config.database = Sequel.connect(config.database_uri, :loggers => [self.logger])
   end
 
   def self.after_connecting_to_database # :nodoc:
-    database # force calling this to connect to the db
-             # This is naive, as it will only work with the default database.
-    yield unless $from_rake
+    return if $from_rake
+
+    Thread.new do
+      sleep 0.2 while config.database.nil?
+      yield 
+    end
   end
 end
 
