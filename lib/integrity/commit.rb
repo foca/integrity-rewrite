@@ -2,6 +2,8 @@ module Integrity
   class Commit < Sequel::Model
     many_to_one :project, :class => "Integrity::Project"
 
+    plugin :timestamped
+
     def status
       "success"
     end

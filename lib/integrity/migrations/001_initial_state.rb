@@ -31,6 +31,10 @@ module Integrity
           integer     :commit_id
           boolean     :status
           text        :output
+          timestamp   :started_at
+          timestamp   :finished_at
+          timestamp   :created_at
+          timestamp   :updated_at
         end
       end
 
