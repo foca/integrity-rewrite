@@ -8,14 +8,14 @@ module Integrity
     # Delegate the status of the project to the last_commit. See 
     # Integrity::Commit#status for more information.
     def status
-      last_commit && last_commit.status
+      last_commit ? last_commit.status : "pending"
     end
 
     # Delegate the human readable status of the project to the 
     # last_commit. See # Integrity::Commit#human_readable_status for 
     # more information.
     def human_readable_status
-      last_commit && last_commit.human_readable_status
+      last_commit ? last_commit.human_readable_status : "Never built yet"
     end
 
     # Get the most recent commit to this project, or nil if no commits
@@ -24,10 +24,10 @@ module Integrity
       commits_dataset.reverse_order(:created_at).first
     end
 
-    # Is this project currently being built? Returns <tt>true</tt> or 
-    # <tt>false</tt>.
+    # Is this project currently being built? Returns <tt>true</tt> if
+    # at least one of this project's commits is being currently built.
     def building?
-      false
+      !!commits.detect {|commit| commit.building? }
     end
 
     # Name of the project. The <tt>permalink</tt> will be calculated 

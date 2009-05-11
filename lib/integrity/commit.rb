@@ -20,6 +20,10 @@ module Integrity
       @author ||= Author.new(@values[:author])
     end
 
+    def building?
+      false
+    end
+
     # Structured representation of a commit author. Gives you access to the
     # name, the email, and the full "name <email>" string.
     class Author
