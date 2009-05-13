@@ -24,6 +24,8 @@ Sequel.on_connect do
   end
 end
 
+Sequel::Model.raise_on_save_failure = false
+
 # General utility methods and configuration options for integrity.
 module Integrity
   # Configure integrity via this method. Set configuration options like this:

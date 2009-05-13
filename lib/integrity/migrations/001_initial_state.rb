@@ -4,12 +4,12 @@ module Integrity
       def up
         create_table :projects do
           primary_key :id
-          varchar     :name
-          varchar     :permalink, :unique => true
-          varchar     :kind
-          varchar     :uri
-          varchar     :branch
-          text        :build_script
+          varchar     :name, :null => false
+          varchar     :permalink, :null => false, :unique => true
+          varchar     :kind, :null => false
+          varchar     :uri, :null => false
+          varchar     :branch, :null => false
+          text        :build_script, :null => false
           boolean     :public
           timestamp   :created_at
           timestamp   :updated_at

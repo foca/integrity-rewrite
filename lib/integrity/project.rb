@@ -4,6 +4,11 @@ module Integrity
 
     plugin :timestamped
     plugin :cascading, :destroy => :commits
+    plugin :validation_class_methods
+
+    validates do
+      presence_of :name, :kind, :uri, :branch, :build_script
+    end
 
     # Delegate the status of the project to the last_commit. See 
     # Integrity::Commit#status for more information.
