@@ -7,6 +7,10 @@ module Integrity
 
     helpers Integrity::Helpers, Sinatra::ContentFor
 
+    before do
+      Integrity.database # force connect
+    end
+
     get "/user_styles.css" do
       content_type "text/css"
       yield_content "global.stylesheets"

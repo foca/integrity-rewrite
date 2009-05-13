@@ -5,11 +5,24 @@ require "ostruct"
 require "sinatra/base"
 require "sinatra/content_for"
 require "sequel"
+require "sequel_on_connect"
+require "sequel/extensions/migration"
 require "bob"
 
 require "integrity/logger"
 require "integrity/configurator"
 require "integrity/helpers"
+
+Sequel.on_connect do
+  begin
+    require "integrity/project"
+    require "integrity/commit"
+    require "integrity/build"
+  rescue Sequel::DatabaseError
+    # when migrating we don't have the tables available yet, so requiring
+    # the models raises an error
+  end
+end
 
 # General utility methods and configuration options for integrity.
 module Integrity
@@ -62,29 +75,9 @@ module Integrity
   end
 
   # Convenience method to grab the database connection (available as 
-  # <tt>config.database</tt>)
+  # <tt>config.database</tt>). If there isn't a connection, it will connect to
+  # whatever database is specified in <tt>config.database_uri</tt>.
   def self.database
-    config.database
+    config.database ||= Sequel.connect(config.database_uri, :loggers => logger)
   end
-
-  # Establish a connection to the database using whatever adapter you specified in 
-  # <tt>config.database_uri</tt>.
-  def self.connect_to_database
-    config.database = Sequel.connect(config.database_uri, :loggers => [self.logger])
-  end
-
-  def self.after_connecting_to_database # :nodoc:
-    return if $from_rake
-
-    Thread.new do
-      sleep 0.2 while config.database.nil?
-      yield 
-    end
-  end
-end
-
-Integrity.after_connecting_to_database do
-  require "integrity/project"
-  require "integrity/commit"
-  require "integrity/build"
 end

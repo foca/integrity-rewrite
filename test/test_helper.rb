@@ -1,4 +1,6 @@
-__ROOT__ = File.expand_path(File.dirname(__FILE__) + "/../")
+def __ROOT__
+  File.expand_path(File.dirname(__FILE__) + "/../")
+end
 
 require "test/unit"
 require "contest"
@@ -21,25 +23,24 @@ end
 
 require "#{__ROOT__}/lib/integrity"
 
-module Integrity::TestHelpers
-  def reset_database
-    File.rm("#{__ROOT__}/test.db") if File.file?("#{__ROOT__}/test.db")
-    Sequel::Migrator.apply(Integrity.database, "#{__ROOT__}/lib/integrity/migrations")
-  end
+class Integrity::TestCase < Test::Unit::TestCase
+  include RR::Adapters::TestUnit
+  include Integrity
 
   def reset_config
     Integrity.configure do |config|
-      config.database_uri = "sqlite://test.db"
+      config.database_uri = "sqlite::memory:"
       config.log_file     = "/dev/null"
       config.build_path   = "#{__ROOT__}/tmp"
     end
   end
-end
 
-class Test::Unit::TestCase
-  include RR::Adapters::TestUnit
-  include Integrity
-  include TestHelpers
+  def reset_database
+    Sequel::Migrator.apply(Integrity.database, "#{__ROOT__}/lib/integrity/migrations")
+    %w(project commit build).each do |model|
+      load "#{__ROOT__}/lib/integrity/#{model}.rb"
+    end
+  end
 
   setup do
     reset_config
