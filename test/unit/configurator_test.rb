@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + "/../test_helper"
 
-class TestConfigurator < Test::Unit::TestCase
+class TestConfigurator < Integrity::TestCase
   setup do
     @config = Configurator.new do |config|
       config.foo = 1
