@@ -1,9 +1,13 @@
+<% yield_content "projects.top", @projects %>
+
 <% if @projects.empty? %>
   <div class="blank_slate">
     <p>None yet, huh?</p>
     <h1>Why don't you <a href="<%= url("new") %>">add your first project</a>?</h1>
   </div>
 <% else %>
+  <% yield_content "projects.list.top", @projects %>
+
   <ul id="projects">
   <% for project in @projects %>
     <li class="<%= cycle("even", "odd") %> <%= project.status.to_s %>" id="project_<%= project.id %>">
@@ -14,7 +18,11 @@
   <% end %>
   </ul>
 
+  <% yield_content "projects.list.top", @projects %>
+
   <% content_for "global.management" do %>
     <a href="<%= url("new") %>">New Project</a>
   <% end %>
 <% end %>
+
+<% yield_content "projects.bottom", @projects %>

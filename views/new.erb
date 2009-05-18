@@ -1,8 +1,13 @@
+<% yield_content "new_project.top", @project %>
+
 <form action="/" method="post">
   <%= erb(:form, :layout => false) %>
 
   <div class="form-actions">
     <button type="submit" class="positive submit-button">Create Project</button>
     <a href="<%= url("/") %>" class="cancel-link">Cancel</a>
+    <% yield_content "new_project.form_actions", @project %>
   </div>
 </form>
+
+<% yield_content "new_project.bottom", @project %>

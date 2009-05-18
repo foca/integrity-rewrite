@@ -24,7 +24,10 @@
           <% yield_content "global.management" %>
         </div>
       <% end %>
+
+      <% yield_content "global.top" %>
       <%= yield %>
+      <% yield_content "global.bottom" %>
     </div>
     <div id="footer">
     </div>

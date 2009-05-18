@@ -1,12 +1,16 @@
+<% yield_content "project.top", @project %>
+
 <% if !@commit %>
   <form method="post" action="<%= project_url(@project, :builds) %>" class="blank_slate">
     <p>No builds for this project, buddy</p>
     <h1>You can request a <button type="submit">manual build</button>.</h1>
   </form>
 <% else %>
+  <% yield_content "project.last_commit.top", @project, @commit %>
   <div id="last_build" class="<%= @commit.status %>">
     <%= erb(:commit, :layout => false) %>
   </div>
+  <% yield_content "project.last_commit.bottom", @project, @commit %>
 
   <% content_for "global.management" do %>
     <form method="post" action="<%= project_url(@project, :builds) %>">
@@ -34,3 +38,5 @@
 <% content_for "global.management" do %>
   <a href="<%= project_url(@project, :edit) %>">Edit Project</a>
 <% end %>
+
+<% yield_content "project.bottom", @project %>
