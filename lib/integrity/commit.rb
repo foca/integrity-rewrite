@@ -16,6 +16,7 @@ module Integrity
       "Foo"
     end
 
+    # Return a structured representation of the author. See the Author class.
     def author
       @author ||= Author.new(@values[:author])
     end
@@ -27,18 +28,29 @@ module Integrity
     # Structured representation of a commit author. Gives you access to the
     # name, the email, and the full "name <email>" string.
     class Author
-      attr_reader :name, :email
+      # Name of the author. If you initialize an author with a string like
+      # <tt>"John Doe <john.doe@example.org>"</tt>. Then this will contain
+      # <tt>"John Doe"</tt>.
+      attr_reader :name
 
+      # Email of the author. If you initialize an author with a string like
+      # <tt>"John Doe <john.doe@example.org>"</tt>. Then this will contain
+      # <tt>"john.doe@example.org"</tt>.
+      attr_reader :email
+
+      # Full representation of the author, as "name <email>". If you initialize
+      # an author with a string like <tt>"John Doe <john.doe@example.org>"</tt>
+      # then this will contain the exact same string.
+      attr_reader :full
+      alias_method :to_s, :full
+
+      # Extract the name and email from the provided string.
       def initialize(string)
-        string.to_s =~ /^(.*) <(.*)>$/
+        @full = string
+        @full.to_s =~ /^(.*) <(.*)>$/
         @name = $1.strip
         @email = $2.strip
       end
-
-      def full
-        @full ||= "#{name} <#{email}>"
-      end
-      alias_method :to_s, :full
     end
   end
 end
