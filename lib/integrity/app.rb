@@ -85,7 +85,7 @@ module Integrity
 
     helpers do
       def render_page(view, title)
-        @title = Array(title)
+        @title = title
         erb view
       end
 

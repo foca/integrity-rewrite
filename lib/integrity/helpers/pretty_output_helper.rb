@@ -81,6 +81,12 @@ module Integrity
 
         date_time.strftime(format_string.gsub("%o", ordinal))
       end
+
+      # Display the page title, according to whatever was set from the application
+      # when rendering a view.
+      def page_title
+        h Array(@title).join(" / ") + " | integrity"
+      end
     end
   end
 end
