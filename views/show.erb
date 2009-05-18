@@ -15,6 +15,22 @@
   <% end %>
 <% end %>
 
+<% unless @project.previous_commits.empty? %>
+  <h2>Previous Builds</h2>
+
+  <% yield_content "project.previous_commits.top", @project %>
+
+  <ol id="previous_builds">
+    <% for commit in @project.previous_commits %>
+      <li class="<%= commit.status %>">
+        <%= erb(:commit_summary, :layout => false, :locals => { :commit => commit }) %>
+      </li>
+    <% end %>
+  </ol>
+
+  <% yield_content "project.previous_commits.bottom", @project %>
+<% end %>
+
 <% content_for "global.management" do %>
   <a href="<%= project_url(@project, :edit) %>">Edit Project</a>
 <% end %>

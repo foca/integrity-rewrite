@@ -1,0 +1,5 @@
+<a href="<%= commit_url(commit) %>">
+  <strong class="build">Built <%= short_commit_identifier(commit) %></strong>
+  <span class="attribution">by <%= commit_author(commit) %>, <%= commit_date(commit) %></span>
+  <% yield_content "project.commit", commit %>
+</a>

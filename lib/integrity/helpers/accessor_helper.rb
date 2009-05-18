@@ -38,6 +38,13 @@ module Integrity
         h commit.identifier
       end
 
+      # Returns the shortened version of the commit identifier.
+      # Useful for git-like SCMs where the commit identifier is
+      # a long hash.
+      def short_commit_identifier(commit)
+        h commit.short_identifier
+      end
+
       # Returns the output of a build, stripped of all bash color
       # codes and replaced by appropriate HTML tags that allow
       # styling.

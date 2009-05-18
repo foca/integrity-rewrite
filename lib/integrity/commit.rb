@@ -4,6 +4,13 @@ module Integrity
 
     plugin :timestamped
 
+    # Return a shortened version of the commit identifier. Useful for SCMs like
+    # git that use long hashes to represent revisions. This gives a manageable
+    # amount of information to display on the UI without looking clunky.
+    def short_identifier
+      identifier.to_s[0..6]
+    end
+
     def status
       "success"
     end

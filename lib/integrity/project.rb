@@ -26,7 +26,13 @@ module Integrity
     # Get the most recent commit to this project, or nil if no commits
     # are found.
     def last_commit
-      commits_dataset.reverse_order(:created_at).first
+      commits_dataset.reverse_order(:committed_at).first
+    end
+
+    # Return the list of commits, ordered by date of commit (newest first),
+    # except for the last one.
+    def previous_commits
+      commits_dataset.reverse_order(:committed_at).all.tap {|all| all.shift }
     end
 
     # Is this project currently being built? Returns <tt>true</tt> if
