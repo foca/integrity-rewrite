@@ -16,6 +16,10 @@ module Integrity
     # environment after the first request to it it's made.
     attr_accessor :base_uri
 
+    # Should we log sql queries? If set to true then the database connection
+    # will get <tt>Configurator#logger</tt> as the logger.
+    attr_accessor :log_queries
+
     # Set the default config. Use like this:
     #
     #     config = Configurator.new do |defaults|
@@ -42,23 +46,37 @@ module Integrity
     # Integrity's logger, defaults to logging at whatever stream is specified in
     # <tt>log_file</tt>.
     def logger
-      @logger ||= Integrity::Logger.new(log_file)
+      @logger ||= setup_logger
     end
 
     # Change the logger object to handle integrity's logging.
     def logger=(logger)
-      @logger = logger
+      @logger = setup_logger(logger)
     end
 
     # Database connection. If none is present it will automatically connect to
     # whatever adapter is specified in <tt>Configurator#database_uri</tt>.
     def database
-      @database ||= Sequel.connect(database_uri, :loggers => logger)
+      @database ||= connect_to_database
     end
 
     # Set the database connection to use by integrity.
     def database=(connection)
       @database = connection
     end
+
+    private
+
+      def setup_logger(logger=Integrity::Logger.new(log_file)) # :nodoc:
+        database.loggers = [logger] if @database && log_queries
+        Bob.logger = logger
+        logger
+      end
+
+      def connect_to_database # :nodoc:
+        options = {}
+        options[:loggers] = [logger] if log_queries
+        Sequel.connect(database_uri, options)
+      end
   end
 end

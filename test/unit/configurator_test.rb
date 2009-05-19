@@ -36,6 +36,12 @@ class TestConfigurator < Integrity::TestCase
     @config.logger.is_a?(Integrity::Logger).should be(true)
   end
 
+  test "The database gets the logger if #log_queries is true" do
+    @config.database_uri = "sqlite::memory:"
+    @config.log_queries = true
+    @config.database.loggers.first.should == @config.logger
+  end
+
   context "Available options" do
     def self.it_understands(*options)
       options.each do |option|
@@ -47,6 +53,6 @@ class TestConfigurator < Integrity::TestCase
     end
 
     it_understands :log_file, :logger, :database_uri, :database,
-                   :build_path, :base_uri
+                   :build_path, :base_uri, :log_queries
   end
 end
