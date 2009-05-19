@@ -2,13 +2,6 @@ module Integrity
   module Helpers
     # Provide helper methods to generate URLs inside integrity.
     module UrlHelper
-      # Returns the full URL to integrity's project list, as defined in
-      # <tt>config.base_uri</tt>. Check the documentation of <tt>Integrity#config</tt>. 
-      # This is returned as an <tt>Addressable::URI</tt>.
-      def root_url
-        @root_url ||= Addressable::URI.parse(Integrity.config.base_uri)
-      end
-
       # Returns a string with a url inside integrity. Each string passed as an
       # argument is added to the url's path, separated by a "/". For example:
       #
@@ -16,12 +9,14 @@ module Integrity
       #
       # Would return:
       #
-      #     http://localhost:8910/foo/bar/baz
+      #     http://base.uri/foo/bar/baz
       #
-      # If you have <tt>http://localhost:8910</tt> defined as your base uri in the 
-      # config (the default).
+      # If you are running integrity at <tt>http://base.uri</tt>. The base URI
+      # is calculated from the request. See 
+      # sinatra-url-for[http://github.com/emk/sinatra-url-for] for the underlying
+      # library that handles getting the base URI from the http request.
       def url(*path)
-        root_url.dup.tap {|url| url.path = root_url.path + path.join("/") }.to_s
+        url_for path.join("/")
       end
 
       # For simplicity, pass a Project instance and it will write the correct URL.

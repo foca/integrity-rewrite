@@ -48,8 +48,12 @@ namespace :test do
   task :web  => :vendor
 end
 
+VENDORED_LIBS = []
+
 desc "Bundle internal dependencies (for ease of use)"
-task :vendor => %w(vendor:prepare vendor:bob vendor:beacon)
+task :vendor => "vendor:prepare" do
+  VENDORED_LIBS.each {|lib| Rake::Task["vendor:#{lib}"].invoke }
+end
 
 namespace :vendor do
   task :prepare do
@@ -57,21 +61,24 @@ namespace :vendor do
   end
 
   def vendor_lib(lib_name, gem_name=lib_name)
-    desc "Vendor #{gem_name}"
+    desc "Vendor #{lib_name}"
     task lib_name => "#{lib_name}:clobber" do
       Dir.chdir("vendor") do
-        `gem unpack #{gem_name} && mv #{gem_name}* #{gem_name}`
+        `gem unpack #{gem_name} && mv #{gem_name}* #{lib_name}`
       end
     end
 
     task "#{lib_name}:clobber" do
-      FileUtils.rm_r("vendor/#{gem_name}") if File.directory?("vendor/#{gem_name}")
+      FileUtils.rm_r("vendor/#{lib_name}") if File.directory?("vendor/#{lib_name}")
     end
+
+    VENDORED_LIBS << lib_name
   end
 
-  vendor_lib :bob, "bob-the-builder"
-  vendor_lib :beacon
+  vendor_lib "bob-the-builder"
+  vendor_lib "beacon"
   vendor_lib "sinatra-content-for"
+  vendor_lib "sinatra-url-for", "emk-sinatra-url-for"
   vendor_lib "sequel_on_connect"
 end
 

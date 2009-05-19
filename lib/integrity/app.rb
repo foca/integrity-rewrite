@@ -5,7 +5,7 @@ module Integrity
     set :app_file, __FILE__
     enable :sessions
 
-    helpers Integrity::Helpers, Sinatra::ContentFor
+    helpers Sinatra::ContentFor, Sinatra::UrlForHelper, Integrity::Helpers
 
     before do
       Integrity.database # force connect

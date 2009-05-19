@@ -10,3 +10,4 @@ vendor/bob-the-builder/*
 vendor/beacon/*
 vendor/sinatra-content-for/*
 vendor/sequel_on_connect
+vendor/sinatra-url-for/*

@@ -4,6 +4,7 @@ require "core_ext/object"
 require "ostruct"
 require "sinatra/base"
 require "sinatra/content_for"
+require "sinatra/url_for"
 require "sequel"
 require "sequel_on_connect"
 require "sequel/extensions/migration"
@@ -32,7 +33,6 @@ module Integrity
   #
   #     Integrity.configure do |config|
   #       config.log_file     = "log/integrity.log"
-  #       config.base_uri     = "http://builder.integrityapp.com"
   #       config.database_uri = "sqlite3://integrity.db"
   #     end
   #
@@ -51,14 +51,11 @@ module Integrity
   # <tt>database</tt>::     Database connection used in Integrity. It defaults to 
   #                         whatever driver is appropriate according to 
   #                         <tt>Integrity.config.database_uri</tt>
-  # <tt>base_uri</tt>::     URI where your integrity install lives (for example, 
-  #                         <tt>http://builder.integrityapp.com</tt>)
   #
   # You can access the configuration with <tt>Integrity.config</tt>
   def self.configure(&block) # :yields: config
     @config ||= Configurator.new do |defaults|
       defaults.log_file     = STDOUT
-      defaults.base_uri     = "http://localhost:8910"
       defaults.database_uri = "sqlite://integrity.db"
       defaults.build_path   = Bob.directory
     end
