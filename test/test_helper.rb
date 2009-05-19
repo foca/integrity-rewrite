@@ -38,11 +38,11 @@ class Integrity::TestCase < Test::Unit::TestCase
     @now ||= Time.now
   end
 
-  # Each time you call it, it returns a Time object one second later
+  # Each time you call it, it returns a Time object <tt>seconds</tt> later
   # than the last. The first time it returns TestCase.now
-  def self.clock
-    @ticks ||= -1 
-    @ticks += 1
+  def self.clock(seconds=1)
+    @ticks ||= -seconds
+    @ticks += seconds
     now + @ticks
   end
 
