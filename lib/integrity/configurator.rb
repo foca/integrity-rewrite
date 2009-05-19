@@ -1,29 +1,56 @@
 module Integrity
-  # Wrapper around OpenStruct to set configuration options.
-  class Configurator < OpenStruct
+  # Set configuration options for integrity.
+  class Configurator
+    # File to store integrity's log. See <tt>Configurator#logger</tt>.
+    attr_accessor :log_file
+
+    # URI to your database, as defined by Sequel[http://sequel.rubyforge.org]'s
+    # API. See <tt>Configurator#database</tt>.
+    attr_accessor :database_uri
+
     # Set the default config. Use like this:
     #
     #     config = Configurator.new do |defaults|
-    #       defaults.foo = 1
+    #       defaults.log_file = "/tmp/integrity.log"
     #     end
     #
-    #     config.foo #=> 1
+    #     config.foo #=> "/tmp/integrity.log"
     def initialize # :yields: default_config
-      super
       yield self if block_given?
     end
 
     # The build path is where each build will be stored. Since this is
     # handled by Bob the Builder, we just forward this setting there.
-    def build_path # :nodoc:
+    def build_path
       Bob.directory
     end
 
     # The build path is where each build will be stored. Since this is
     # handled by Bob the Builder, we just forward this setting there.
-    def build_path=(path) # :nodoc:
+    def build_path=(path)
       Bob.directory = path
-      super(path)
+    end
+
+    # Integrity's logger, defaults to logging at whatever stream is specified in
+    # <tt>log_file</tt>.
+    def logger
+      @logger ||= Integrity::Logger.new(log_file)
+    end
+
+    # Change the logger object to handle integrity's logging.
+    def logger=(logger)
+      @logger = logger
+    end
+
+    # Database connection. If none is present it will automatically connect to
+    # whatever adapter is specified in <tt>Configurator#database_uri</tt>.
+    def database
+      @database ||= Sequel.connect(database_uri, :loggers => logger)
+    end
+
+    # Set the database connection to use by integrity.
+    def database=(connection)
+      @database = connection
     end
   end
 end

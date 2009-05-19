@@ -36,23 +36,9 @@ module Integrity
   #       config.database_uri = "sqlite3://integrity.db"
   #     end
   #
-  # The configuration options used throughout the app are:
-  #
-  # <tt>log_file</tt>::     File to store integrity's log. Defaults to 
-  #                         <tt>STDOUT</tt>.
-  # <tt>logger</tt>::       Logger object used to log throughout the application. 
-  #                         It defaults to a Logger instance that logs to 
-  #                         <tt>config.log_file</tt> and cycles the log every 1 MiB, 
-  #                         keeping 7 old log files.
-  # <tt>build_path</tt>::   Filesystem path to indicate where to check out the code 
-  #                         repositories in order to run the build scripts.
-  # <tt>database_uri</tt>:: URI to your database, as required by the 
-  #                         sequel[http://sequel.rubyforge.org] API.
-  # <tt>database</tt>::     Database connection used in Integrity. It defaults to 
-  #                         whatever driver is appropriate according to 
-  #                         <tt>Integrity.config.database_uri</tt>
-  #
   # You can access the configuration with <tt>Integrity.config</tt>
+  #
+  # See Integrity::Configurator to see all the configuration options available.
   def self.configure(&block) # :yields: config
     @config ||= Configurator.new do |defaults|
       defaults.log_file     = STDOUT
@@ -67,16 +53,14 @@ module Integrity
     alias_method :config, :configure
   end
 
-  # Integrity's logger, defaults to logging at whatever stream is specified in 
-  # <tt>config.log_file</tt>. May be modified by setting <tt>config.logger</tt>
+  # Convenience method to get the logger. See <tt>Configurator#logger</tt>.
   def self.logger
-    config.logger ||= Logger.new(config.log_file)
+    config.logger
   end
 
-  # Convenience method to grab the database connection (available as 
-  # <tt>config.database</tt>). If there isn't a connection, it will connect to
-  # whatever database is specified in <tt>config.database_uri</tt>.
+  # Convenience method to get the database connection. See 
+  # <tt>Configurator#database</tt>.
   def self.database
-    config.database ||= Sequel.connect(config.database_uri, :loggers => logger)
+    config.database
   end
 end

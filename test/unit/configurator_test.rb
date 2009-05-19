@@ -3,17 +3,17 @@ require File.dirname(__FILE__) + "/../test_helper"
 class TestConfigurator < Integrity::TestCase
   setup do
     @config = Configurator.new do |config|
-      config.foo = 1
+      config.log_file = "/integrity.log"
     end
   end
 
   test "Sets the default configuration on the constructor" do
-    @config.foo.should == 1
+    @config.log_file.should == "/integrity.log"
   end
 
   test "Will overwrite default settings" do
-    @config.foo = 2
-    @config.foo.should == 2
+    @config.log_file = "/var/log/integrity.log"
+    @config.log_file.should == "/var/log/integrity.log"
   end
 
   test "Changing Bob.directory changes the build_path" do
