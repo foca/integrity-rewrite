@@ -46,6 +46,7 @@ class TestConfigurator < Integrity::TestCase
       end
     end
 
-    it_understands :log_file, :logger, :database_uri, :database, :build_path
+    it_understands :log_file, :logger, :database_uri, :database,
+                   :build_path, :base_uri
   end
 end

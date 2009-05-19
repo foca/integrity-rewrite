@@ -8,6 +8,14 @@ module Integrity
     # API. See <tt>Configurator#database</tt>.
     attr_accessor :database_uri
 
+    # Base URI to integrity. This should be used to generate URIs to integrity
+    # from outside the context of the web application (which can get the base
+    # URI from it's environment), like from Notifiers.
+    #
+    # Unless the user changes it, the web application will set it from its
+    # environment after the first request to it it's made.
+    attr_accessor :base_uri
+
     # Set the default config. Use like this:
     #
     #     config = Configurator.new do |defaults|

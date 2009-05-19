@@ -9,6 +9,7 @@ module Integrity
 
     before do
       Integrity.database # force connect
+      Integrity.config.base_uri ||= url_for("/", :full)
     end
 
     get "/user_styles.css" do
