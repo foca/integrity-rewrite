@@ -16,7 +16,7 @@ module Integrity
       # sinatra-url-for[http://github.com/emk/sinatra-url-for] for the underlying
       # library that handles getting the base URI from the http request.
       def url(*path)
-        url_for path.join("/")
+        url_for path.join("/"), :full
       end
 
       # For simplicity, pass a Project instance and it will write the correct URL.
