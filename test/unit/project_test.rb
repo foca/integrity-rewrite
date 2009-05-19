@@ -6,6 +6,32 @@ class ProjectTest < Integrity::TestCase
     project.valid?.should be(false)
   end
 
+  context "Validating" do
+    setup do
+      @default_attributes = Project.valid_attributes
+    end
+
+    test "requires a #name" do
+      project = Project.new(@default_attributes.merge(:name => nil))
+      project.valid?.should be(false)
+    end
+
+    test "requires an #uri" do
+      project = Project.new(@default_attributes.merge(:uri => nil))
+      project.valid?.should be(false)
+    end
+
+    test "defaults #kind to git if left blank" do
+      project = Project.new(:kind => nil)
+      project.kind.should == "git"
+    end
+
+    test "default #build_script to 'rake' if left blank" do
+      project = Project.new(:build_script => nil)
+      project.build_script.should == "rake"
+    end
+  end
+
   context "Getting the associated commits" do
     setup do
       @project = Project.spawn
